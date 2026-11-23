@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, type RouteObject } from 'react-router-dom'
 import { ROUTES } from './routes'
 import { LocaleProvider } from './i18n/provider'
@@ -31,8 +32,24 @@ import {
   ConfirmSourceStep,
 } from './pages/connect-source/ConnectSourceWizard'
 
+const DesignGallery = import.meta.env.DEV
+  ? lazy(() => import('./pages/DesignGallery'))
+  : null
+
 /** Route table. Exported so tests can assert it covers every ROUTES value. */
 export const appRoutes: RouteObject[] = [
+  ...(import.meta.env.DEV && DesignGallery
+    ? [
+        {
+          path: '/design-gallery',
+          element: (
+            <Suspense fallback={null}>
+              <DesignGallery />
+            </Suspense>
+          ),
+        },
+      ]
+    : []),
   { path: ROUTES.home, element: <Landing /> },
   { path: ROUTES.login, element: <Login /> },
   { path: ROUTES.signup, element: <Signup /> },
