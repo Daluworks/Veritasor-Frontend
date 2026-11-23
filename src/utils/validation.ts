@@ -1,16 +1,16 @@
 export type ValidationResult = string | undefined;
 
-export type Validator<T = string, TValues = Record<string, unknown>> = (
+export type Validator<T = string, TValues = unknown> = (
   value: T,
   values?: TValues,
 ) => ValidationResult;
 
-export type AsyncValidator<T = string, TValues = Record<string, unknown>> = (
+export type AsyncValidator<T = string, TValues = unknown> = (
   value: T,
   values?: TValues,
 ) => Promise<ValidationResult>;
 
-export type FieldValidator<T = string, TValues = Record<string, unknown>> = (
+export type FieldValidator<T = string, TValues = unknown> = (
   value: T,
   values?: TValues,
 ) => ValidationResult | Promise<ValidationResult>;
@@ -125,7 +125,7 @@ export function pattern(
   };
 }
 
-export function compose<T = string, TValues = Record<string, unknown>>(
+export function compose<T = string, TValues = unknown>(
   ...validators: Array<Validator<T, TValues>>
 ): Validator<T, TValues> {
   return (value, values) => {
@@ -139,7 +139,7 @@ export function compose<T = string, TValues = Record<string, unknown>>(
   };
 }
 
-export function composeAsync<T = string, TValues = Record<string, unknown>>(
+export function composeAsync<T = string, TValues = unknown>(
   ...validators: Array<FieldValidator<T, TValues>>
 ): AsyncValidator<T, TValues> {
   return async (value, values) => {
